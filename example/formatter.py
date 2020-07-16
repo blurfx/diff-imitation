@@ -29,7 +29,7 @@ class Deleted(BaseFormatter):
         return diff_range
 
     def format(self) -> str:
-        output = [f'{colored.fg("red")}> {item[3]}' for item in self._items]
+        output = [f'{colored.fg("red")}< {item[3]}' for item in self._items]
         return "\n".join(output)
 
 
