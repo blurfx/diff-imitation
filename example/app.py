@@ -1,41 +1,23 @@
 import sys
-from diff import diff
+from typing import List
+
+from diff import diff, DiffResult
+from formatter import Added, Deleted, Updated
 
 
-def format_print(diff_result_list):
+def print_diff(diff_result_list: List[DiffResult]):
     added_item = [item for item in diff_result_list if item[0] == 1]
     deleted_item = [item for item in diff_result_list if item[0] == 0]
 
     if len(added_item) == len(diff_result_list):
-        diff_range_text = f"{added_item[0][1]}a{added_item[0][2]}"
-        if len(added_item) > 1:
-            diff_range_text += f",{added_item[-1][2]}"
-        print(diff_range_text)
-
-        for item in added_item:
-            print(f"> {item[3]}")
+        formatter = Added(added_item)
     elif len(deleted_item) == len(diff_result_list):
-        diff_range_text = f"{deleted_item[0][1]}d{deleted_item[0][2]}"
-        if len(deleted_item) > 1:
-            diff_range_text += f",{deleted_item[-1][2]}"
-        print(diff_range_text)
-
-        for item in deleted_item:
-            print(f"< {item[3]}")
+        formatter = Deleted(deleted_item)
     else:
-        diff_range_text = f"{deleted_item[0][1]}"
-        if len(deleted_item) > 1:
-            diff_range_text += f",{deleted_item[-1][1]}"
-        diff_range_text += f"c{added_item[0][2]}"
-        if len(added_item) > 1:
-            diff_range_text += f",{added_item[-1][2]}"
-        print(diff_range_text)
+        formatter = Updated(diff_result_list)
 
-        for item in deleted_item:
-            print(f"< {item[3]}")
-        print("---")
-        for item in added_item:
-            print(f"> {item[3]}")
+    print(formatter.get_range())
+    print(formatter.format())
 
 
 def main(first_file_path: str, second_file_path: str):
@@ -57,12 +39,12 @@ def main(first_file_path: str, second_file_path: str):
                     )
                     continue
 
-                format_print(diff_item_list)
+                print_diff(diff_item_list)
                 diff_item_list.clear()
                 diff_item_list.append((flag, old_line_number, new_line_number, text))
 
             if len(diff_item_list) > 0:
-                format_print(diff_item_list)
+                print_diff(diff_item_list)
 
 
 if __name__ == "__main__":

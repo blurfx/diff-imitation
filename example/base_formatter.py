@@ -10,7 +10,7 @@ class BaseFormatter(ABC):
         pass
 
     @abstractmethod
-    def _get_range(self) -> str:
+    def get_range(self) -> str:
         pass
 
     @abstractmethod
