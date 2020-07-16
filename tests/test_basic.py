@@ -63,11 +63,12 @@ class BasicTest(unittest.TestCase):
                 file_b_lines = [line.strip() for line in fb.readlines()]
 
                 expected_result = [
+                    (-1, "Lorem ipsum dolor sit amet"),
                     (-3, "Integer at tortor"),
                     (-4, "auctor, eleifend magna et,"),
-                    (3, "Integer tortor"),
-                    (5, ""),
-                    (6, "Nullam dapibus libero"),
+                    (2, "Integer tortor"),
+                    (4, ""),
+                    (5, "Nullam dapibus libero"),
                 ]
                 actual_result = diff(file_a_lines, file_b_lines)
                 assert expected_result == actual_result
