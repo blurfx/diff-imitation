@@ -55,3 +55,19 @@ class BasicTest(unittest.TestCase):
         expected_result = [(-2, "line 2")]
         actual_result = diff(original_list, tail_modified_list)
         assert expected_result == actual_result
+
+    def test_with_dummy_file(self):
+        with open("tests/data_a.txt", "r") as fa:
+            with open("tests/data_b.txt", "r") as fb:
+                file_a_lines = [line.strip() for line in fa.readlines()]
+                file_b_lines = [line.strip() for line in fb.readlines()]
+
+                expected_result = [
+                    (-3, "Integer at tortor"),
+                    (-4, "auctor, eleifend magna et,"),
+                    (3, "Integer tortor"),
+                    (5, ""),
+                    (6, "Nullam dapibus libero"),
+                ]
+                actual_result = diff(file_a_lines, file_b_lines)
+                assert expected_result == actual_result
