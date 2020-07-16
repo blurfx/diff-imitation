@@ -1,5 +1,7 @@
 from typing import List, Tuple
 
+DiffResult = Tuple[int, int, int, str]
+
 
 def _lcs(old_list: List[str], new_list: List[str]) -> List[List[int]]:
     """
@@ -25,7 +27,7 @@ def _lcs(old_list: List[str], new_list: List[str]) -> List[List[int]]:
 
 def _backtrack(
     lcs_table: List[List[int]], old_list: List[str], new_list: List[str], i: int, j: int
-) -> List[Tuple[int, str]]:
+) -> List[DiffResult]:
     """
     Backtrack changed subsequence using
 
@@ -34,33 +36,33 @@ def _backtrack(
     :param new_list: List of modified strings to be compared
     :param i: Index of the old_list element
     :param j: Index of the new_list element
-    :return: List of Tuple[line number, text] of changed lines.
-             if line number is positive, it means text is added.
-             if line number is negative, it means text is deleted.
+    :return: List of Tuple[flag, old line number, new line number, text] of changed lines.
+             if flag is 1, it means text is added.
+             if flag is 0, it means text is deleted.
     """
     if i > 0 and j > 0 and old_list[i - 1] == new_list[j - 1]:
         return _backtrack(lcs_table, old_list, new_list, i - 1, j - 1)
     else:
         if j > 0 and (i == 0 or lcs_table[i][j - 1] >= lcs_table[i - 1][j]):
             return _backtrack(lcs_table, old_list, new_list, i, j - 1) + [
-                (j, new_list[j - 1])
+                (1, i, j, new_list[j - 1])
             ]
         elif i > 0 and (j == 0 or lcs_table[i][j - 1] < lcs_table[i - 1][j]):
             return _backtrack(lcs_table, old_list, new_list, i - 1, j) + [
-                (-i, old_list[i - 1])
+                (0, i, j, old_list[i - 1])
             ]
     return []
 
 
-def diff(old_list: List[str], new_list: List[str]) -> List[Tuple[int, str]]:
+def diff(old_list: List[str], new_list: List[str]) -> List[DiffResult]:
     """
     Get differences of given two list of strings
 
     :param old_list: List of original strings to be compared
     :param new_list: List of modified strings to be compared
-    :return: List of Tuple[line number, text] of changed lines.
-         if line number is positive, it means text is added.
-         if line number is negative, it means text is deleted.
+    :return: List of Tuple[flag, old line number, new line number, text] of changed lines.
+             if flag is 1, it means text is added.
+             if flag is 0, it means text is deleted.
     """
     lcs_table = _lcs(old_list, new_list)
     old_len = len(old_list)
