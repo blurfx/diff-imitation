@@ -1,3 +1,3 @@
-from .main import diff  # noqa: F401
+from .main import diff, DiffResult  # noqa: F401
 
-all = ["diff"]
+all = ["diff", "DiffResult"]
