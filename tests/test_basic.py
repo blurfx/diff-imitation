@@ -1,5 +1,5 @@
 import unittest
-from diff import diff
+from diff import diff, DiffResult
 
 
 class BasicTest(unittest.TestCase):
@@ -17,8 +17,8 @@ class BasicTest(unittest.TestCase):
         modified_list = ["bbbbb"]
 
         expected_result = [
-            (0, 1, 0, "aaaaa"),
-            (1, 1, 1, "bbbbb"),
+            DiffResult(0, 1, 0, "aaaaa"),
+            DiffResult(1, 1, 1, "bbbbb"),
         ]
         actual_result = diff(original_list, modified_list)
 
@@ -30,15 +30,15 @@ class BasicTest(unittest.TestCase):
         tail_modified_list = ["line 1", "line2"]
 
         expected_result = [
-            (0, 1, 0, "line 1"),
-            (1, 1, 1, "line1"),
+            DiffResult(0, 1, 0, "line 1"),
+            DiffResult(1, 1, 1, "line1"),
         ]
         actual_result = diff(original_list, head_modified_list)
         assert expected_result == actual_result
 
         expected_result = [
-            (0, 2, 1, "line 2"),
-            (1, 2, 2, "line2"),
+            DiffResult(0, 2, 1, "line 2"),
+            DiffResult(1, 2, 2, "line2"),
         ]
         actual_result = diff(original_list, tail_modified_list)
         assert expected_result == actual_result
@@ -48,11 +48,11 @@ class BasicTest(unittest.TestCase):
         head_modified_list = ["line 2"]
         tail_modified_list = ["line 1"]
 
-        expected_result = [(0, 1, 0, "line 1")]
+        expected_result = [DiffResult(0, 1, 0, "line 1")]
         actual_result = diff(original_list, head_modified_list)
         assert expected_result == actual_result
 
-        expected_result = [(0, 2, 1, "line 2")]
+        expected_result = [DiffResult(0, 2, 1, "line 2")]
         actual_result = diff(original_list, tail_modified_list)
         assert expected_result == actual_result
 
@@ -63,12 +63,12 @@ class BasicTest(unittest.TestCase):
                 file_b_lines = [line.strip() for line in fb.readlines()]
 
                 expected_result = [
-                    (0, 1, 0, "Lorem ipsum dolor sit amet"),
-                    (0, 3, 1, "Integer at tortor"),
-                    (0, 4, 1, "auctor, eleifend magna et,"),
-                    (1, 4, 2, "Integer tortor"),
-                    (1, 5, 4, ""),
-                    (1, 5, 5, "Nullam dapibus libero"),
+                    DiffResult(0, 1, 0, "Lorem ipsum dolor sit amet"),
+                    DiffResult(0, 3, 1, "Integer at tortor"),
+                    DiffResult(0, 4, 1, "auctor, eleifend magna et,"),
+                    DiffResult(1, 4, 2, "Integer tortor"),
+                    DiffResult(1, 5, 4, ""),
+                    DiffResult(1, 5, 5, "Nullam dapibus libero"),
                 ]
                 actual_result = diff(file_a_lines, file_b_lines)
                 assert expected_result == actual_result

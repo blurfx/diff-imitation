@@ -1,6 +1,6 @@
-from typing import List, Tuple
+from typing import List
 
-DiffResult = Tuple[int, int, int, str]
+from .diff_result import DiffResult
 
 
 def _lcs(old_list: List[str], new_list: List[str]) -> List[List[int]]:
@@ -45,11 +45,11 @@ def _backtrack(
     else:
         if j > 0 and (i == 0 or lcs_table[i][j - 1] >= lcs_table[i - 1][j]):
             return _backtrack(lcs_table, old_list, new_list, i, j - 1) + [
-                (1, i, j, new_list[j - 1])
+                DiffResult(1, i, j, new_list[j - 1])
             ]
         elif i > 0 and (j == 0 or lcs_table[i][j - 1] < lcs_table[i - 1][j]):
             return _backtrack(lcs_table, old_list, new_list, i - 1, j) + [
-                (0, i, j, old_list[i - 1])
+                DiffResult(0, i, j, old_list[i - 1])
             ]
     return []
 
