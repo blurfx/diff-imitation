@@ -6,15 +6,15 @@ from formatter import Added, Deleted, Updated
 
 
 def print_diff(diff_result_list: List[DiffResult]):
-    added_item = [item for item in diff_result_list if item[0] == 1]
-    deleted_item = [item for item in diff_result_list if item[0] == 0]
+    added_items = [item for item in diff_result_list if item[0] == 1]
+    deleted_items = [item for item in diff_result_list if item[0] == 0]
 
-    if len(added_item) == len(diff_result_list):
-        formatter = Added(added_item)
-    elif len(deleted_item) == len(diff_result_list):
-        formatter = Deleted(deleted_item)
+    if len(added_items) == len(diff_result_list):
+        formatter = Added(added_items)
+    elif len(deleted_items) == len(diff_result_list):
+        formatter = Deleted(deleted_items)
     else:
-        formatter = Updated(diff_result_list)
+        formatter = Updated(added_items, deleted_items)
 
     print(formatter.get_range())
     print(formatter.format())

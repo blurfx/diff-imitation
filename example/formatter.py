@@ -5,7 +5,6 @@ from base_formatter import BaseFormatter
 
 class Added(BaseFormatter):
     def __init__(self, items):
-        super().__init__(items)
         self._items = items
 
     def get_range(self):
@@ -21,7 +20,6 @@ class Added(BaseFormatter):
 
 class Deleted(BaseFormatter):
     def __init__(self, items):
-        super().__init__(items)
         self._items = items
 
     def get_range(self) -> str:
@@ -36,13 +34,12 @@ class Deleted(BaseFormatter):
 
 
 class Updated(BaseFormatter):
-    def __init__(self, items):
-        super().__init__(items)
-        self._added_items = [item for item in items if item[0] == 1]
-        self._added_formatter = Added(self._added_items)
+    def __init__(self, added_items, deleted_items):
+        self._added_items = added_items
+        self._added_formatter = Added(added_items)
 
-        self._deleted_items = [item for item in items if item[0] == 0]
-        self._deleted_formatter = Deleted(self._deleted_items)
+        self._deleted_items = deleted_items
+        self._deleted_formatter = Deleted(deleted_items)
 
     def get_range(self) -> str:
         diff_range = f"{colored.fg('cyan')}{self._deleted_items[0][1]}"
