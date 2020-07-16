@@ -22,8 +22,4 @@ class BasicTest(unittest.TestCase):
         ]
         actual_result = diff(original_list, modified_list)
 
-        print(expected_result)
-        print("=" * 20)
-        print(actual_result)
-
         assert expected_result == actual_result
