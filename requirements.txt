@@ -1,1 +1,2 @@
 pre-commit==2.6.0
+colored==1.4.2
