@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="diff",
+    name="diff-imitation",
     version="0.0.1",
     author="blurfx",
     author_email="iam@xo.dev",
     description="A tiny imitation thing of unix diff",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/planetarium/take-home-2020-blurfx/",
+    url="https://github.com/blurfx/diff-imitation/",
     packages=setuptools.find_packages(exclude=["example", "tests"]),
     classifiers=[
         "Programming Language :: Python :: 3",
